@@ -1,5 +1,4 @@
 #!/bin/bash
-cd /usr/local/
 mkdir apache-maven
 cd apache-maven
 wget http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz
@@ -9,7 +8,6 @@ export M2=$M2_HOME/bin
 export PATH=$M2:$PATH
 # Install app code
 cd ~
-git clone https://github.com/varunrao/Search-Analytics.git
 cd Search-Analytics
 ## Install flume hbase serializer
 cd hbase-serializer
