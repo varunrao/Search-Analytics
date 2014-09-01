@@ -1,0 +1,8 @@
+<!-- A test indexerconf that use defaults maximally, thus specifies minimal conf -->
+<indexer table="table1">
+
+  <field name="field1" value="col:qual1"/>
+  
+  <extract value="col:qual2"/>
+
+</indexer>

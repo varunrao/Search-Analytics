@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Copyright 2013 NGDATA nv
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>hbase-indexer-mr</artifactId>
+  <name>HBase Indexer: MapReduce batch indexing</name>
+
+  <parent>
+    <groupId>com.ngdata</groupId>
+    <artifactId>hbase-indexer</artifactId>
+    <version>1.6-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <properties>
+    <hadoop.version>${version.hadoop.mr1.hbase98}</hadoop.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.ngdata</groupId>
+      <artifactId>hbase-indexer-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.ngdata</groupId>
+      <artifactId>hbase-indexer-morphlines</artifactId>
+      <exclusions>
+        <exclusion>
+          <!-- CDH-16644: no need for startReportingMetricsToHTTP command from kite-morphlines-metrics-servlets -->
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-servlet</artifactId> 
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.cloudera.search</groupId>
+      <artifactId>search-mr</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+      <version>${version.zookeeper}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.jdmk</groupId>
+          <artifactId>jmxtools</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.jmx</groupId>
+          <artifactId>jmxri</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.mail</groupId>
+          <artifactId>mail</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.jms</groupId>
+          <artifactId>jms</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-servlet</artifactId>
+    </dependency>    
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>yarn</id>
+      <properties>
+        <hadoop.version>${version.hadoop.hbase98}</hadoop.version>
+      </properties>
+    </profile>
+    
+    <profile>
+      <id>0.94</id>
+      <activation>
+        <property>
+          <name>!hbase.api</name>
+        </property>
+      </activation>
+
+      <properties>
+        <log4j.properties.file>log4j-0.94.properties</log4j.properties.file>
+      </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-core</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase</artifactId>
+        </dependency>
+
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-test</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-common</artifactId>
+          <classifier>tests</classifier>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-hdfs</artifactId>
+          <classifier>tests</classifier>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>0.96</id>
+      <activation>
+        <property>
+          <name>hbase.api</name>
+          <value>0.96</value>
+        </property>
+      </activation>
+
+
+      <properties>
+        <log4j.properties.file>log4j-0.96.properties</log4j.properties.file>
+      </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-server</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-test</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-hadoop2-compat</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+          <version>${version.hbase96}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-hadoop-compat</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+          <version>${version.hbase96}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-common</artifactId>
+          <classifier>tests</classifier>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-hdfs</artifactId>
+          <classifier>tests</classifier>
+          <scope>test</scope>
+        </dependency>
+
+      </dependencies>  
+    </profile>
+    
+    <profile>
+      <id>0.98</id>
+      <activation>
+        <property>
+          <name>hbase.api</name>
+          <value>0.98</value>
+        </property>
+      </activation>
+
+      <properties>
+        <log4j.properties.file>log4j-0.98.properties</log4j.properties.file>
+      </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+          <version>${hadoop.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-minicluster</artifactId>
+          <version>${hadoop.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-server</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+          <version>${version.hbase98}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-hadoop2-compat</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+          <version>${version.hbase98}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase-hadoop-compat</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+          <version>${version.hbase98}</version>
+        </dependency>
+      </dependencies>  
+    </profile>
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Xmx512m -XX:MaxDirectMemorySize=256m -XX:MaxPermSize=128M</argLine>
+          <environmentVariables>
+            <MALLOC_ARENA_MAX>4</MALLOC_ARENA_MAX>
+          </environmentVariables>
+          <systemPropertyVariables>
+            <log4j.configuration>file:${project.build.testOutputDirectory}/${log4j.properties.file}</log4j.configuration>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/hadoop-job.xml</descriptor>
+          </descriptors>
+          <archive>
+            <manifest>
+              <mainClass>com.ngdata.hbaseindexer.mr.HBaseMapReduceIndexerTool</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
