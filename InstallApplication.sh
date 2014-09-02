@@ -16,7 +16,7 @@ cd ~/Search-Analytics
 ## Install flume hbase serializer
 cd ~/Search-Analytics/hbase-serializer
 mvn clean package
-cp target/hbase-serializer-0.0.1-SNAPSHOT.jar /var/lib/flume/lib/
+cp target/hbase-serializer-0.0.1-SNAPSHOT.jar /usr/lib/flume/lib/
 ## Install flume custom Twitter4j Source
 cd ~/Search-Analytics/flume-sources
 ## Replace twitter variables
@@ -26,8 +26,9 @@ sed -i "s/access_Token/$access_Token/" flume.conf
 sed -i "s/access_TokenSecret/$access_TokenSecret/" flume.conf
 mvn clean package
 cp flume.conf /etc/flume/conf/
+cp target/flume-sources-1.0-SNAPSHOT.jar /usr/lib/flume/lib/
 
 ## Install hbase solr indexer
-cd ~/Search-Analytihbase-indexer
+cd ~/Search-Analytics/hbase-indexer
 mvn package -DskipTests=true
 bin/hbase-indexer server

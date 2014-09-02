@@ -1,4 +1,7 @@
 #!/bin/bash
+export JAVA_HOME=/usr/jdk64/jdk1.6.0_31/ 
+export PATH=$JAVA_HOME/bin:$PATH
+yum install -y ant
 cd ~
 wget http://archive.apache.org/dist/lucene/solr/4.7.2/solr-4.7.2.tgz
 tar -xvf solr-4.7.2.tgz
