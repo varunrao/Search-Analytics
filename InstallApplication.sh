@@ -1,9 +1,14 @@
 #!/bin/bash
+consumer_Key=
+consumer_Secret=
+access_Token=
+access_TokenSecret=
+cd ~
 mkdir apache-maven
 cd apache-maven
 wget http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz
 tar xvf apache-maven-3.2.1-bin.tar.gz
-export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1
+export M2_HOME=~/apache-maven/apache-maven-3.2.1
 export M2=$M2_HOME/bin
 export PATH=$M2:$PATH
 # Install app code
