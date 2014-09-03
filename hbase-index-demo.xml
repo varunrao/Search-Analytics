@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<indexer table="tweets">
+<field name="created_at" value="tweet:created_at"/>
+<field name="text" value="tweet:text"/>
+</indexer>

@@ -30,5 +30,5 @@ cp target/flume-sources-1.0-SNAPSHOT.jar /usr/lib/flume/lib/
 
 ## Install hbase solr indexer
 cd ~/Search-Analytics/hbase-indexer
-mvn package -DskipTests=true
+mvn clean verify package -Pdist -Dhbase.api=0.98 -DskipTests=true
 bin/hbase-indexer server

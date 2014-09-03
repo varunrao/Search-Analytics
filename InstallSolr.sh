@@ -1,5 +1,5 @@
 #!/bin/bash
-export JAVA_HOME=/usr/jdk64/jdk1.6.0_31/ 
+export JAVA_HOME=/usr/jdk64/jdk1.7.0_45/
 export PATH=$JAVA_HOME/bin:$PATH
 yum install -y ant
 cd ~

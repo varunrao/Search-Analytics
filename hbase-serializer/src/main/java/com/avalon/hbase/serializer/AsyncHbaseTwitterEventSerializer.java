@@ -1,7 +1,9 @@
 package com.avalon.hbase.serializer;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.flume.Context;
@@ -26,6 +28,7 @@ public class AsyncHbaseTwitterEventSerializer implements
 	private final List<AtomicIncrementRequest> incs = new ArrayList<AtomicIncrementRequest>();
 	private byte[] currentRowKey;
 	private final byte[] eventCountCol = "eventCount".getBytes();
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	@Override
 	public void initialize(byte[] table, byte[] cf) {
@@ -58,9 +61,19 @@ public class AsyncHbaseTwitterEventSerializer implements
 			puts.add(req);
 
 			bCol = "created_at".getBytes();
+			
 			bVal = String
 					.valueOf(new Timestamp(tweet.getCreatedAt().getTime()))
 					.getBytes();
+			
+			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
+			puts.add(req);
+			
+			bCol = "inserted_at".getBytes();
+			bVal = String
+					.valueOf(simpleDateFormat.format(new Date()))
+					.getBytes();
+			
 			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
 			puts.add(req);
 		} catch (TwitterException ex) {
