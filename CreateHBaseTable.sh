@@ -1,0 +1,1 @@
+create 'tweets', {NAME => 'tweet', REPLICATION_SCOPE => '1' }

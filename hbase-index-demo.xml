@@ -2,4 +2,7 @@
 <indexer table="tweets">
 <field name="created_at" value="tweet:created_at"/>
 <field name="text" value="tweet:text"/>
+<field name="inserted_at" value="tweet:inserted_at"/>
+<field name="source" value="tweet:source"/>
+<field name="user_name" value="tweet:user_name"/>
 </indexer>

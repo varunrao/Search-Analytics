@@ -76,6 +76,22 @@ public class AsyncHbaseTwitterEventSerializer implements
 			
 			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
 			puts.add(req);
+			
+			bCol = "source".getBytes();
+			bVal = String
+					.valueOf(tweet.getSource())
+					.getBytes();
+			
+			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
+			puts.add(req);
+			
+			bCol = "user_name".getBytes();
+			bVal = String
+					.valueOf(tweet.getUser().getName())
+					.getBytes();
+			
+			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
+			puts.add(req);
 		} catch (TwitterException ex) {
 			throw new RuntimeException("Error parsing Twitter string");
 		}
