@@ -5,4 +5,5 @@
 <field name="inserted_at" value="tweet:inserted_at"/>
 <field name="source" value="tweet:source"/>
 <field name="user_name" value="tweet:user_name"/>
+<field name="country" value="tweet:country"/>
 </indexer>
