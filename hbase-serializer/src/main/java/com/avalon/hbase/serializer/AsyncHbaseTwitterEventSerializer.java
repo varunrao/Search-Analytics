@@ -63,7 +63,7 @@ public class AsyncHbaseTwitterEventSerializer implements
 			bCol = "created_at".getBytes();
 			
 			bVal = String
-					.valueOf(new Timestamp(tweet.getCreatedAt().getTime()))
+					.valueOf(simpleDateFormat.format(tweet.getCreatedAt()))
 					.getBytes();
 			
 			req = new PutRequest(table, currentRowKey, colFam, bCol, bVal);
