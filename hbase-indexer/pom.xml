@@ -34,7 +34,7 @@
     <version.hadoop>2.0.0-cdh4.4.0</version.hadoop>
     <version.zookeeper>3.4.14</version.zookeeper>
     <version.jackson>1.8.8</version.jackson>
-    <version.httpclient>4.3.6</version.httpclient>
+    <version.httpclient>4.5.13</version.httpclient>
     <version.kite>0.13.0</version.kite>
     <version.search>1.2.0</version.search>
     <version.search.hbase98>1.0.0-cdh5.0.0</version.search.hbase98>
