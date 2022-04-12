@@ -26,12 +26,12 @@
     <version.hbase94>0.94.6-cdh4.4.0</version.hbase94>
     <version.hbase96>0.96.1.1-cdh5.0.0</version.hbase96>
     <version.hbase98>0.98.5-cdh5.2.0-SNAPSHOT</version.hbase98>
-    <version.hadoop.hbase96>2.3.0-cdh5.0.0</version.hadoop.hbase96>
-    <version.hadoop.hbase98>2.5.0-cdh5.2.0-SNAPSHOT</version.hadoop.hbase98>
+    <version.hadoop.hbase96>3.2.3</version.hadoop.hbase96>
+    <version.hadoop.hbase98>3.2.3</version.hadoop.hbase98>
     <version.hadoop.mr1>2.0.0-mr1-cdh4.4.0</version.hadoop.mr1>
     <version.hadoop.mr1.hbase96>2.3.0-mr1-cdh5.0.0</version.hadoop.mr1.hbase96>
     <version.hadoop.mr1.hbase98>2.3.0-mr1-cdh5.2.0-SNAPSHOT</version.hadoop.mr1.hbase98>
-    <version.hadoop>2.0.0-cdh4.4.0</version.hadoop>
+    <version.hadoop>3.2.3</version.hadoop>
     <version.zookeeper>3.4.14</version.zookeeper>
     <version.jackson>1.8.8</version.jackson>
     <version.httpclient>4.3.6</version.httpclient>
